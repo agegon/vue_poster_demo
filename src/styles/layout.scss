@@ -1,0 +1,99 @@
+$base-font: 1rem;
+$base-offset: 0.5rem;
+
+@for $i from 1 through 4 {
+  .ma-#{$i} {
+    margin: $base-offset * $i;
+  }
+
+  .mx-#{$i} {
+    margin-left: $base-offset * $i;
+    margin-right: $base-offset * $i;
+  }
+
+  .my-#{$i} {
+    margin-bottom: $base-offset * $i;
+    margin-top: $base-offset * $i;
+  }
+
+  .mb-#{$i} {
+    margin-bottom: $base-offset * $i;
+  }
+
+  .mt-#{$i} {
+    margin-top: $base-offset * $i;
+  }
+
+  .ml-#{$i} {
+    margin-left: $base-offset * $i;
+  }
+
+  .mr-#{$i} {
+    margin-right: $base-offset * $i;
+  }
+
+  .pa-#{$i} {
+    padding: $base-offset * $i;
+  }
+
+  .px-#{$i} {
+    padding-left: $base-offset * $i;
+    padding-right: $base-offset * $i;
+  }
+
+  .py-#{$i} {
+    padding-bottom: $base-offset * $i;
+    padding-top: $base-offset * $i;
+  }
+
+  .pb-#{$i} {
+    padding-bottom: $base-offset * $i;
+  }
+
+  .pt-#{$i} {
+    padding-top: $base-offset * $i;
+  }
+
+  .pl-#{$i} {
+    padding-left: $base-offset * $i;
+  }
+
+  .pr-#{$i} {
+    padding-right: $base-offset * $i;
+  }
+}
+
+.form-control {
+  label {
+    display: block;
+    margin-bottom: $base-offset;
+  }
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+}
+
+h1 {
+  font-size: $base-font * 2;
+}
+
+h2 {
+  font-size: $base-font * 1.5;
+}
+
+h3 {
+  font-size: $base-font * 1.25;
+}
+
+h4 {
+  font-size: $base-font * 1;
+}
+
+h5 {
+  font-size: $base-font * 0.825;
+}
+
+h6 {
+  font-size: $base-font * 0.75;
+}

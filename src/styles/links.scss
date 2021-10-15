@@ -1,0 +1,36 @@
+@import './colors.scss';
+
+$link-colors: (
+  primary: $color-primary,
+  success: $color-success,
+  warning: $color-warning,
+  danger: $color-danger,
+  info: $color-info,
+);
+
+.link {
+  color: $color-default;
+  cursor: pointer;
+  outline: none;
+  text-decoration: none;
+  transition: var(--el-transition-color);
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: $color-primary;
+    text-decoration: underline;
+  }
+}
+
+@each $color-key, $color-value in $link-colors {
+  .link--#{$color-key} {
+    color: $color-value;
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: lighten($color-value, 10%);
+    }
+  }
+}
