@@ -1,5 +1,5 @@
 export const AUTH_STATUSES = {
   INITIAL: 'initial',
-  AUTHORIZED: 'authorized',
-  NOT_AUTHORIZED: 'not_authorized',
+  AUTHENTICATED: 'authenticated',
+  NOT_AUTHENTICATED: 'not_authenticated',
 };

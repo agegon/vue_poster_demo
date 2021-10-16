@@ -1,5 +1,5 @@
 <template>
-  <app-layout>
+  <app-layout v-if="!isLoading">
     <template #header>
       <the-navbar></the-navbar>
     </template>
@@ -8,11 +8,26 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import TheNavbar from '@/components/TheNavbar.vue';
 import AppLayout from '@/layouts/AppLayout';
+import { protectRoute } from '@/router/routeGuard';
+import { AUTH_GETTERS, getCurrentUser } from '@/store/modules/auth';
 
 export default {
   name: 'App',
+  computed: mapGetters({
+    isLoading: AUTH_GETTERS.IS_LOADING,
+  }),
+  mounted() {
+    this.$store.dispatch(getCurrentUser()).then(() => {
+      const redirectRoute = protectRoute(this.$route);
+
+      if (redirectRoute) {
+        this.$router.push(redirectRoute);
+      }
+    });
+  },
   components: {
     AppLayout,
     TheNavbar,

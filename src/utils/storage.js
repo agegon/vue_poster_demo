@@ -1,3 +1,11 @@
+export const setItemToStorage = (key, data) => {
+  try {
+    localStorage.setItem(key, JSON.stringify(data));
+  } catch (err) {
+    console.log('Error saving data to local storage', err);
+  }
+};
+
 export const getItemFromStorage = (key) => {
   try {
     const data = localStorage.getItem(key);
@@ -10,10 +18,10 @@ export const getItemFromStorage = (key) => {
   }
 };
 
-export const setItemToStorage = (key, data) => {
+export const removeItemFromStorage = (key) => {
   try {
-    localStorage.setItem(key, JSON.stringify(data));
+    localStorage.removeItem(key);
   } catch (err) {
-    console.log('Error saving data to local storage', err);
+    console.log('Error removing data to local storage', err);
   }
 };

@@ -52,10 +52,11 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import { ElRow, ElCard, ElInput, ElButton } from 'element-plus';
 import AppAuthLayout from '@/layouts/AppAuthLayout';
 import AppValidationErrors from '@/components/AppValidationErrors';
-import { registerUser } from '@/store/modules/auth';
+import { AUTH_GETTERS, registerUser } from '@/store/modules/auth';
 
 export default {
   name: 'AppRegister',
@@ -66,14 +67,10 @@ export default {
       username: '',
     };
   },
-  computed: {
-    isSubmitting() {
-      return this.$store.state.auth.isSubmitting;
-    },
-    validationErrors() {
-      return this.$store.state.auth.validationErrors;
-    },
-  },
+  computed: mapGetters({
+    isSubmitting: AUTH_GETTERS.IS_SUBMITTING,
+    validationErrors: AUTH_GETTERS.VALIDATION_ERRORS,
+  }),
   methods: {
     async handleSubmit() {
       const user = await this.$store.dispatch(

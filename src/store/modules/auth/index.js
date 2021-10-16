@@ -1,3 +1,4 @@
 export * from './actions';
-export * from './mutations';
+export * from './getters';
 export * from './module';
+export * from './mutations';

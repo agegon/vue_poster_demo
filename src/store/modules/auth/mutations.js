@@ -2,32 +2,48 @@ import { AUTH_STATUSES } from '@/constants/auth';
 import { createMutation } from '@/utils/vuexHelpers';
 
 const AUTH_MUTATIONS = {
-  REGISTER_REQUEST: 'auth/registerRequest',
-  REGISTER_SUCCESS: 'auth/registerSuccess',
-  REGISTER_FAILURE: 'auth/registerFailure',
+  AUTHORIZATION_REQUEST: 'auth/authorizationRequest',
+  AUTHORIZATION_SUCCESS: 'auth/authorizationSuccess',
+  AUTHORIZATION_FAILURE: 'auth/authorizationFailure',
+
+  GET_CURRENT_USER_REQUEST: 'auth/getCurrentUserRequest',
+  GET_CURRENT_USER_SUCCESS: 'auth/getCurrentUserSuccess',
+  GET_CURRENT_USER_FAILURE: 'auth/getCurrentUserFailure',
 };
 
 export const mutations = {
-  [AUTH_MUTATIONS.REGISTER_REQUEST]: (state) => {
+  [AUTH_MUTATIONS.AUTHORIZATION_REQUEST]: (state) => {
     state.isSubmitting = true;
-    state.error = null;
     state.validationErrors = null;
   },
-  [AUTH_MUTATIONS.REGISTER_SUCCESS]: (state, mutation) => {
+  [AUTH_MUTATIONS.AUTHORIZATION_SUCCESS]: (state, mutation) => {
     state.isSubmitting = false;
     state.currentUser = mutation.payload;
     state.status = AUTH_STATUSES.AUTHENTICATED;
   },
-  [AUTH_MUTATIONS.REGISTER_FAILURE]: (state, mutation) => {
-    const { error, validationErrors } = mutation.payload;
-
+  [AUTH_MUTATIONS.AUTHORIZATION_FAILURE]: (state, mutation) => {
     state.isSubmitting = false;
-    state.error = error || null;
-    state.validationErrors = validationErrors || null;
+    state.validationErrors = mutation.payload || null;
+    state.status = AUTH_STATUSES.NOT_AUTHENTICATED;
+  },
+  [AUTH_MUTATIONS.GET_CURRENT_USER_REQUEST]: (state) => {
+    state.isLoading = true;
+  },
+  [AUTH_MUTATIONS.GET_CURRENT_USER_SUCCESS]: (state, mutation) => {
+    state.isLoading = false;
+    state.currentUser = mutation.payload;
+    state.status = AUTH_STATUSES.AUTHENTICATED;
+  },
+  [AUTH_MUTATIONS.GET_CURRENT_USER_FAILURE]: (state) => {
+    state.isLoading = false;
     state.status = AUTH_STATUSES.NOT_AUTHENTICATED;
   },
 };
 
-export const authRegisterRequest = createMutation(AUTH_MUTATIONS.REGISTER_REQUEST);
-export const authRegisterSuccess = createMutation(AUTH_MUTATIONS.REGISTER_SUCCESS);
-export const authRegisterFailure = createMutation(AUTH_MUTATIONS.REGISTER_FAILURE);
+export const authorizationRequest = createMutation(AUTH_MUTATIONS.AUTHORIZATION_REQUEST);
+export const authorizationSuccess = createMutation(AUTH_MUTATIONS.AUTHORIZATION_SUCCESS);
+export const authorizationFailure = createMutation(AUTH_MUTATIONS.AUTHORIZATION_FAILURE);
+
+export const getCurrentUserRequest = createMutation(AUTH_MUTATIONS.GET_CURRENT_USER_REQUEST);
+export const getCurrentUserSuccess = createMutation(AUTH_MUTATIONS.GET_CURRENT_USER_SUCCESS);
+export const getCurrentUserFailure = createMutation(AUTH_MUTATIONS.GET_CURRENT_USER_FAILURE);
