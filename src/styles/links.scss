@@ -34,3 +34,14 @@ $link-colors: (
     }
   }
 }
+
+.link--shadow {
+  &,
+  &:hover,
+  &:focus,
+  &:active {
+    color: inherit;
+    font-size: inherit;
+    text-decoration: inherit;
+  }
+}

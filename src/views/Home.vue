@@ -1,14 +1,14 @@
 <template>
-  <el-button>Default</el-button>
+  <app-articles></app-articles>
 </template>
 
 <script>
-import { ElButton } from 'element-plus';
+import AppArticles from '@/components/AppArticles';
 
 export default {
   name: 'AppHome',
   components: {
-    ElButton,
+    AppArticles,
   },
 };
 </script>

@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { API_HOST } from '@/constants/environment';
 
 const axiosInstance = axios.create({
-  baseURL: 'https://api.realworld.io/api',
+  baseURL: API_HOST + '/api',
 });
 
 export const setAxiosAuthorization = (token) => {

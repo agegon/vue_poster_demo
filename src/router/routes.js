@@ -47,6 +47,15 @@ export const routes = [
   },
   {
     component: () => import('@/views/Stub.vue'),
+    name: 'article',
+    path: '/articles/:id',
+    meta: {
+      isAuth: true,
+      title: 'View article',
+    },
+  },
+  {
+    component: () => import('@/views/Stub.vue'),
     name: 'userProfile',
     path: '/user/:username',
     meta: {
