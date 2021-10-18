@@ -27,6 +27,7 @@
             </el-row>
             <div>
               <el-button
+                v-if="isAuth"
                 size="small"
                 type="primary"
                 :icon="article.favorited ? 'el-icon-star-on' : 'el-icon-star-off'"
@@ -34,6 +35,7 @@
               >
                 {{ article.favoritesCount }}
               </el-button>
+              <app-star-count v-else>{{ article.favoritesCount }}</app-star-count>
             </div>
           </el-row>
         </template>
@@ -46,7 +48,19 @@
           <p class="description mb-2">{{ article.description }}</p>
         </router-link>
 
-        <el-row justify="end">
+        <el-row justify="space-between" align="middle">
+          <div class="mb-n1">
+            <el-tag
+              v-for="tag in article.tagList"
+              :key="tag"
+              class="mr-1 mb-1"
+              size="mini"
+              type="info"
+              effect="plain"
+            >
+              {{ tag }}
+            </el-tag>
+          </div>
           <router-link
             class="link link--primary read-more"
             :to="{ name: 'article', params: { id: article.slug } }"
@@ -73,22 +87,29 @@
 </template>
 
 <script>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useStore } from 'vuex';
-import { ElAvatar, ElButton, ElCard, ElEmpty, ElPagination, ElRow } from 'element-plus';
+import { ElAvatar, ElButton, ElCard, ElEmpty, ElPagination, ElRow, ElTag } from 'element-plus';
 import AppLoader from '@/components/ui/AppLoader';
+import AppStarCount from '@/components/ui/AppStarCount';
 import { ARTICLES_GETTERS, getArticles } from '@/store/modules/articles';
+import { ARTICLE_LIST_TYPES } from '@/constants/articles';
+import { AUTH_GETTERS } from '@/store/modules/auth';
 
 export default {
   name: 'AppArticles',
-  setup() {
+  setup(props) {
     const pageSize = 10;
     const page = ref(1);
     const store = useStore();
 
+    const type = computed(() => props.type);
+    const tag = computed(() => props.tag);
+
     const fetchArticles = () => {
       const params = {
-        isFeed: false,
+        isFeed: type.value === ARTICLE_LIST_TYPES.FEED,
+        tag: tag.value || undefined,
         limit: pageSize,
         offset: (page.value - 1) * pageSize,
       };
@@ -108,25 +129,36 @@ export default {
     const articles = computed(() => store.getters[ARTICLES_GETTERS.ARTICLES_DATA]);
     const articlesCount = computed(() => store.getters[ARTICLES_GETTERS.ARTICLES_COUNT]);
     const isLoading = computed(() => store.getters[ARTICLES_GETTERS.IS_LOADING]);
+    const isAuth = computed(() => store.getters[AUTH_GETTERS.IS_AUTHENTICATED]);
+
+    watch([type, tag], () => {
+      fetchArticles();
+    });
 
     return {
       articles,
       articlesCount,
+      isAuth,
       isLoading,
       handleChangePage,
       page,
       pageSize,
     };
   },
-  props: {},
+  props: {
+    tag: String,
+    type: String,
+  },
   components: {
     AppLoader,
+    AppStarCount,
     ElAvatar,
     ElButton,
     ElCard,
     ElEmpty,
     ElPagination,
     ElRow,
+    ElTag,
   },
 };
 </script>
@@ -140,7 +172,7 @@ export default {
 .description {
   color: var(--el-color-info);
   display: -webkit-box;
-  height: 40px;
+  height: 38px;
   overflow: hidden;
   text-overflow: ellipsis;
   -webkit-box-orient: vertical;

@@ -22,7 +22,7 @@ export const actions = {
       return data;
     } catch (error) {
       showError(error.message);
-      getArticlesFailure(error.message);
+      commit(getArticlesFailure(error.message));
     }
   },
 };

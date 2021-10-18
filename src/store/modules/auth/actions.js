@@ -30,6 +30,7 @@ export const actions = {
       const { user } = await fetchLoginUser(action.payload);
       commit(authorizationSuccess(user));
       setItemToStorage(AUTH_TOKEN, user.token);
+      setAxiosAuthorization(user.token);
 
       return user;
     } catch (error) {
@@ -48,6 +49,7 @@ export const actions = {
       const { user } = await fetchRegisterUser(action.payload);
       commit(authorizationSuccess(user));
       setItemToStorage(AUTH_TOKEN, user.token);
+      setAxiosAuthorization(user.token);
 
       return user;
     } catch (error) {

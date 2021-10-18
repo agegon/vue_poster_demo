@@ -56,7 +56,7 @@ import { mapGetters } from 'vuex';
 import { ElRow, ElCard, ElInput, ElButton } from 'element-plus';
 import AppAuthLayout from '@/layouts/AppAuthLayout';
 import AppValidationErrors from '@/components/AppValidationErrors';
-import { AUTH_GETTERS, registerUser } from '@/store/modules/auth';
+import { AUTH_GETTERS, clearValidationErrors, registerUser } from '@/store/modules/auth';
 
 export default {
   name: 'AppRegister',
@@ -85,6 +85,9 @@ export default {
         this.$router.push({ name: 'home' });
       }
     },
+  },
+  beforeUnmount() {
+    this.$store.commit(clearValidationErrors());
   },
   components: {
     AppAuthLayout,

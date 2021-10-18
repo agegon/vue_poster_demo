@@ -1,29 +1,16 @@
 <template>
-  <header v-if="$slots.header" class="header">
-    <div class="container">
-      <slot name="header"></slot>
-    </div>
-  </header>
-
-  <main>
-    <div class="container">
-      <slot></slot>
-    </div>
-  </main>
+  <div class="container">
+    <slot></slot>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'AppLayout',
+  name: 'AppContainer',
 };
 </script>
 
 <style lang="scss" scoped>
-.header {
-  background: white;
-  box-shadow: 0px 2px 8px 0px rgba(34, 60, 80, 0.2);
-}
-
 .container {
   margin: 0 auto;
   padding: 15px;

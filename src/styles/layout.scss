@@ -1,64 +1,65 @@
 $base-font: 1rem;
 $base-offset: 0.5rem;
 
-@for $i from 1 through 4 {
-  .ma-#{$i} {
+@for $i from -4 through 4 {
+  $k: $i;
+
+  @if $i < 0 {
+    $k: 'n' + -1 * $i;
+  }
+
+  .ma-#{$k} {
     margin: $base-offset * $i;
   }
 
-  .mx-#{$i} {
-    margin-left: $base-offset * $i;
-    margin-right: $base-offset * $i;
-  }
-
-  .my-#{$i} {
-    margin-bottom: $base-offset * $i;
-    margin-top: $base-offset * $i;
-  }
-
-  .mb-#{$i} {
-    margin-bottom: $base-offset * $i;
-  }
-
-  .mt-#{$i} {
-    margin-top: $base-offset * $i;
-  }
-
-  .ml-#{$i} {
-    margin-left: $base-offset * $i;
-  }
-
-  .mr-#{$i} {
-    margin-right: $base-offset * $i;
-  }
-
-  .pa-#{$i} {
+  .pa-#{$k} {
     padding: $base-offset * $i;
   }
+}
 
-  .px-#{$i} {
-    padding-left: $base-offset * $i;
-    padding-right: $base-offset * $i;
+@for $i from -4 through 4 {
+  $k: $i;
+
+  @if $i < 0 {
+    $k: 'n' + -1 * $i;
+  }
+  .my-#{$k}, .ma-#{$k}.my-#{$k},
+  .mb-#{$k}, .ma-#{$k}.mb-#{$k} {
+    margin-bottom: $base-offset * $i;
   }
 
-  .py-#{$i} {
+  .my-#{$k}, .ma-#{$k}.my-#{$k},
+  .mt-#{$k}, .ma-#{$k}.mt-#{$k} {
+    margin-top: $base-offset * $i;
+  }
+
+  .mx-#{$k}, .ma-#{$k}.mx-#{$k},
+  .ml-#{$k}, .ma-#{$k}.ml-#{$k} {
+    margin-left: $base-offset * $i;
+  }
+
+  .mx-#{$k}, .ma-#{$k}.mx-#{$k},
+  .mr-#{$k}, .ma-#{$k}.mr-#{$k} {
+    margin-right: $base-offset * $i;
+  }
+
+  .py-#{$k}, .pa-#{$k}.py-#{$k},
+  .pb-#{$k}, .pa-#{$k}.pb-#{$k} {
     padding-bottom: $base-offset * $i;
+  }
+
+  .py-#{$k}, .pa-#{$k}.py-#{$k},
+  .pt-#{$k}, .pa-#{$k}.pt-#{$k} {
     padding-top: $base-offset * $i;
   }
 
-  .pb-#{$i} {
-    padding-bottom: $base-offset * $i;
-  }
-
-  .pt-#{$i} {
-    padding-top: $base-offset * $i;
-  }
-
-  .pl-#{$i} {
+  .px-#{$k}, .pa-#{$k}.px-#{$k},
+  .pl-#{$k}, .pa-#{$k}.pl-#{$k} {
     padding-left: $base-offset * $i;
   }
 
-  .pr-#{$i} {
+  .px-#{$k}, .pa-#{$k}.px-#{$k},
+  .pr-#{$k}, .pa-#{$k}.pr-#{$k} {
     padding-right: $base-offset * $i;
   }
 }

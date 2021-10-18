@@ -5,6 +5,7 @@ import { store } from './store';
 import App from './App.vue';
 
 import 'element-plus/dist/index.css';
+import 'element-plus/theme-chalk/display.css';
 import './styles/main.scss';
 
 createApp(App).use(store).use(router).mount('#app');

@@ -47,7 +47,7 @@ import { mapGetters } from 'vuex';
 import { ElRow, ElCard, ElInput, ElButton } from 'element-plus';
 import AppValidationErrors from '@/components/AppValidationErrors';
 import AppAuthLayout from '@/layouts/AppAuthLayout';
-import { AUTH_GETTERS, loginUser } from '@/store/modules/auth';
+import { AUTH_GETTERS, clearValidationErrors, loginUser } from '@/store/modules/auth';
 
 export default {
   name: 'AppLogin',
@@ -76,6 +76,9 @@ export default {
       }
     },
   },
+  beforeUnmount() {
+    this.$store.commit(clearValidationErrors());
+  },
   components: {
     AppAuthLayout,
     AppValidationErrors,
@@ -87,12 +90,4 @@ export default {
 };
 </script>
 
-<style scoped>
-h1 {
-  text-align: center;
-}
-
-p {
-  text-align: center;
-}
-</style>
+<style scoped></style>

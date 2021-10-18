@@ -1,68 +1,79 @@
 <template>
-  <nav>
-    <el-row class="header" justify="space-between" align="middle">
-      <router-link class="link brand-link" :to="{ name: 'home' }">
-        <h3 class="title">Poster</h3>
-      </router-link>
+  <nav class="navbar">
+    <app-container>
+      <el-row class="header" justify="space-between" align="middle">
+        <router-link class="link brand-link" :to="{ name: 'home' }">
+          <h3 class="title">Poster</h3>
+        </router-link>
 
-      <ul class="link-list">
-        <template v-if="isAuth">
-          <li class="ml-2">
-            <router-link
-              class="link nav-link"
-              active-class="active"
-              exact
-              :to="{ name: 'createArticle' }"
-            >
-              <i class="icon"><icon-edit /></i>
-              &nbsp;New Article
-            </router-link>
-          </li>
-          <li class="ml-2">
-            <router-link
-              class="link nav-link"
-              active-class="active"
-              exact
-              :to="{ name: 'settings' }"
-            >
-              <i class="icon"><icon-settings /></i>
-              &nbsp;Settings
-            </router-link>
-          </li>
-          <li class="ml-2">
-            <router-link
-              class="link nav-link"
-              active-class="active"
-              exact
-              :to="{
-                name: 'userProfile',
-                params: { username: currentUser.username },
-              }"
-            >
-              <el-avatar icon="el-icon-user-solid" :src="currentUser.image" :size="24"></el-avatar>
-              <span class="username">&nbsp;{{ currentUser.username }}</span>
-            </router-link>
-          </li>
-        </template>
-        <template v-else>
-          <li class="ml-2">
-            <router-link class="link nav-link" active-class="active" exact :to="{ name: 'login' }">
-              Sing In
-            </router-link>
-          </li>
-          <li class="ml-2">
-            <router-link
-              class="link nav-link"
-              active-class="active"
-              exact
-              :to="{ name: 'register' }"
-            >
-              Sing Up
-            </router-link>
-          </li>
-        </template>
-      </ul>
-    </el-row>
+        <ul class="ma-0 pa-0 link-list">
+          <template v-if="isAuth">
+            <li class="ml-2">
+              <router-link
+                class="link nav-link"
+                active-class="active"
+                exact
+                :to="{ name: 'createArticle' }"
+              >
+                <i class="icon"><icon-edit /></i>
+                &nbsp;New Article
+              </router-link>
+            </li>
+            <li class="ml-2">
+              <router-link
+                class="link nav-link"
+                active-class="active"
+                exact
+                :to="{ name: 'settings' }"
+              >
+                <i class="icon"><icon-settings /></i>
+                &nbsp;Settings
+              </router-link>
+            </li>
+            <li class="ml-2">
+              <router-link
+                class="link nav-link"
+                active-class="active"
+                exact
+                :to="{
+                  name: 'userProfile',
+                  params: { username: currentUser.username },
+                }"
+              >
+                <el-avatar
+                  icon="el-icon-user-solid"
+                  :src="currentUser.image"
+                  :size="24"
+                ></el-avatar>
+                <span class="username">&nbsp;{{ currentUser.username }}</span>
+              </router-link>
+            </li>
+          </template>
+          <template v-else>
+            <li class="ml-2">
+              <router-link
+                class="link nav-link"
+                active-class="active"
+                exact
+                :to="{ name: 'login' }"
+              >
+                Sing In
+              </router-link>
+            </li>
+            <li class="ml-2">
+              <router-link
+                class="link nav-link"
+                active-class="active"
+                exact
+                :to="{ name: 'register' }"
+              >
+                Sing Up
+              </router-link>
+            </li>
+          </template>
+        </ul>
+      </el-row>
+    </app-container>
   </nav>
 </template>
 
@@ -70,6 +81,7 @@
 import { mapGetters } from 'vuex';
 import { ElAvatar, ElRow } from 'element-plus';
 import { IconEdit, IconSettings } from '@/components/icons';
+import AppContainer from '@/components/ui/AppContainer';
 import { AUTH_GETTERS } from '@/store/modules/auth';
 
 export default {
@@ -79,6 +91,7 @@ export default {
     isAuth: AUTH_GETTERS.IS_AUTHENTICATED,
   }),
   components: {
+    AppContainer,
     ElAvatar,
     ElRow,
     IconEdit,
@@ -88,6 +101,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.navbar {
+  background: white;
+  box-shadow: 0px 2px 8px 0px rgba(34, 60, 80, 0.2);
+}
+
 .header {
   min-height: 30px;
 }
@@ -100,8 +118,6 @@ export default {
   align-items: center;
   display: flex;
   list-style: none;
-  margin: 0;
-  padding: 0;
 }
 
 .link.brand-link {

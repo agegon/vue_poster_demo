@@ -1,16 +1,13 @@
 <template>
-  <app-layout v-if="!isLoading">
-    <template #header>
-      <the-navbar></the-navbar>
-    </template>
+  <template v-if="!isLoading">
+    <the-navbar></the-navbar>
     <router-view></router-view>
-  </app-layout>
+  </template>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 import TheNavbar from '@/components/TheNavbar.vue';
-import AppLayout from '@/layouts/AppLayout';
 import { protectRoute } from '@/router/routeGuard';
 import { AUTH_GETTERS, getCurrentUser } from '@/store/modules/auth';
 
@@ -29,7 +26,6 @@ export default {
     });
   },
   components: {
-    AppLayout,
     TheNavbar,
   },
 };
