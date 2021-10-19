@@ -19,7 +19,7 @@ export const actions = {
       return data;
     } catch (error) {
       showError(error.message);
-      commit(getTagsFailure(error.message));
+      commit(getTagsFailure(error.name));
     }
   },
 };

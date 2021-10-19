@@ -13,7 +13,7 @@
           <el-tab-pane label="Global feed" :name="articleTabs.GLOBAL"></el-tab-pane>
           <el-tab-pane
             v-if="activeTag"
-            :label="`#${activeTag}`"
+            :label="`${activeTag}`"
             :name="articleTabs.TAG"
           ></el-tab-pane>
         </el-tabs>

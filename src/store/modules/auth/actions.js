@@ -6,6 +6,7 @@ import { getItemFromStorage, removeItemFromStorage, setItemToStorage } from '@/u
 import { createAction } from '@/utils/vuexHelpers';
 
 import {
+  clearAuthorization,
   authorizationRequest,
   authorizationSuccess,
   authorizationFailure,
@@ -18,6 +19,7 @@ const AUTH_TOKEN = 'jwtToken';
 
 const AUTH_ACTIONS = {
   LOGIN: 'auth/login',
+  LOGOUT: 'auth/logout',
   REGISTER: 'auth/register',
   GET_CURRENT_USER: 'auth/getCurrentUser',
 };
@@ -88,8 +90,14 @@ export const actions = {
       commit(getCurrentUserFailure());
     }
   },
+  [AUTH_ACTIONS.LOGOUT]: ({ commit }) => {
+    commit(clearAuthorization());
+    clearAxiosAuthorization();
+    removeItemFromStorage(AUTH_TOKEN);
+  },
 };
 
 export const loginUser = createAction(AUTH_ACTIONS.LOGIN);
+export const logoutUser = createAction(AUTH_ACTIONS.LOGOUT);
 export const registerUser = createAction(AUTH_ACTIONS.REGISTER);
 export const getCurrentUser = createAction(AUTH_ACTIONS.GET_CURRENT_USER);

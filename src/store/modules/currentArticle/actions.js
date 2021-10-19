@@ -37,7 +37,7 @@ export const actions = {
       return data;
     } catch (error) {
       showError(error.message);
-      commit(getArticleFailure(error.message));
+      commit(getArticleFailure(error.name));
     }
   },
   [ARTICLE_ACTIONS.CREATE_ARTICLE]: async ({ commit }, action) => {

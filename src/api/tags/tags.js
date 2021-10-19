@@ -7,6 +7,7 @@ export const fetchGetTags = async () => {
 
     return data;
   } catch (error) {
-    throw new UnknownError('api/tags/fetchGetTags');
+    const message = error?.response?.data?.error || undefined;
+    throw new UnknownError('api/tags/fetchGetTags', message);
   }
 };

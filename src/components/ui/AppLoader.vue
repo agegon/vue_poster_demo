@@ -29,7 +29,7 @@ export default {
     stroke-dasharray: 90, 150;
     stroke-dashoffset: 0;
     stroke-width: 2;
-    stroke: var(--el-color-primary);
+    stroke: var(--color-primary);
     stroke-linecap: round;
   }
 }

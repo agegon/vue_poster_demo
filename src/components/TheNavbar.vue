@@ -111,7 +111,7 @@ export default {
 }
 
 .title {
-  color: var(--el-color-primary);
+  color: var(--color-primary);
 }
 
 .link-list {
@@ -131,7 +131,7 @@ export default {
 }
 
 .nav-link.active {
-  color: #000;
+  color: var(--color-text-base);
 }
 
 .username {

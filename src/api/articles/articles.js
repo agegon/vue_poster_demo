@@ -1,5 +1,5 @@
 import { axios } from '@/api/axios';
-import { UnknownError, ValidationError } from '@/utils/errors';
+import { NotFoundError, UnknownError, ValidationError } from '@/utils/errors';
 
 export const fetchGetArticles = async (params) => {
   try {
@@ -7,7 +7,8 @@ export const fetchGetArticles = async (params) => {
 
     return data;
   } catch (error) {
-    throw new UnknownError('api/articles/fetchGetArticles');
+    const message = error?.response?.data?.error || undefined;
+    throw new UnknownError('api/articles/fetchGetArticles', message);
   }
 };
 
@@ -17,7 +18,8 @@ export const fetchGetFeedArticles = async (params) => {
 
     return data;
   } catch (error) {
-    throw new UnknownError('api/articles/fetchGetFeedArticles');
+    const message = error?.response?.data?.error || undefined;
+    throw new UnknownError('api/articles/fetchGetFeedArticles', message);
   }
 };
 
@@ -27,7 +29,14 @@ export const fetchGetArticle = async (slug) => {
 
     return data;
   } catch (error) {
-    throw new UnknownError('api/articles/fetchGetArticle');
+    const status = error?.response?.status;
+    const message = error?.response?.data?.error || undefined;
+
+    if (status === 404) {
+      throw new NotFoundError('Article was not found');
+    }
+
+    throw new UnknownError('api/articles/fetchGetArticle', message);
   }
 };
 
@@ -38,6 +47,7 @@ export const fetchCreateArticle = async (body) => {
     return data;
   } catch (error) {
     const { data, status } = error?.response || {};
+    const message = data?.error || undefined;
 
     if (status === 422 && data?.errors) {
       throw new ValidationError({
@@ -46,7 +56,7 @@ export const fetchCreateArticle = async (body) => {
       });
     }
 
-    throw new UnknownError('api/articles/fetchCreateArticle');
+    throw new UnknownError('api/articles/fetchCreateArticle', message);
   }
 };
 
@@ -57,6 +67,7 @@ export const fetchUpdateArticle = async (slug, body) => {
     return data;
   } catch (error) {
     const { data, status } = error?.response || {};
+    const message = data?.error || undefined;
 
     if (status === 422 && data?.errors) {
       throw new ValidationError({
@@ -65,7 +76,7 @@ export const fetchUpdateArticle = async (slug, body) => {
       });
     }
 
-    throw new UnknownError('api/articles/fetchUpdateArticle');
+    throw new UnknownError('api/articles/fetchUpdateArticle', message);
   }
 };
 
@@ -75,6 +86,7 @@ export const fetchDeleteArticle = async (slug) => {
 
     return true;
   } catch (error) {
-    throw new UnknownError('api/articles/fetchDeleteArticle');
+    const message = error?.response?.data?.error || undefined;
+    throw new UnknownError('api/articles/fetchDeleteArticle', message);
   }
 };

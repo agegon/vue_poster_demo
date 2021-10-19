@@ -37,7 +37,7 @@ export const routes = [
     },
   },
   {
-    component: () => import('@/views/CreateArticle.vue'),
+    component: () => import('@/views/ArticleCreate.vue'),
     name: 'createArticle',
     path: '/articles/create',
     meta: {
@@ -46,7 +46,7 @@ export const routes = [
     },
   },
   {
-    component: () => import('@/views/Stub.vue'),
+    component: () => import('@/views/ArticleView.vue'),
     name: 'article',
     path: '/articles/:id',
     meta: {

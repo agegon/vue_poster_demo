@@ -24,24 +24,26 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/colors.scss';
+
 .banner {
   box-shadow: inset 0 8px 8px -8px rgba(0, 0, 0, 0.3), inset 0 -8px 8px -8px rgba(0, 0, 0, 0.3);
-  color: white;
+  color: $color-white;
 }
 
 .banner-primary {
-  background-color: var(--el-color-primary);
+  background-color: desaturate($color-primary, 50%);
 }
 
 .banner-success {
-  background-color: var(--el-color-success);
+  background-color: desaturate($color-success, 50%);
 }
 
 .banner-warning {
-  background-color: var(--el-color-warning);
+  background-color: desaturate($color-warning, 50%);
 }
 
 .banner-info {
-  background-color: var(--el-color-info);
+  background-color: desaturate($color-info, 50%);
 }
 </style>

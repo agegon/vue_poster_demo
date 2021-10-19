@@ -10,6 +10,7 @@ export const fetchRegisterUser = async (user) => {
     return data;
   } catch (error) {
     const { data, status } = error?.response || {};
+    const message = data?.error || undefined;
 
     if (status === 422 && data?.errors) {
       throw new ValidationError({
@@ -18,7 +19,7 @@ export const fetchRegisterUser = async (user) => {
       });
     }
 
-    throw new UnknownError('api/auth/fetchRegisterUser');
+    throw new UnknownError('api/auth/fetchRegisterUser', message);
   }
 };
 
@@ -29,6 +30,7 @@ export const fetchLoginUser = async (user) => {
     return data;
   } catch (error) {
     const { data, status } = error?.response || {};
+    const message = data?.error || undefined;
 
     if ([403, 422].includes(status) && data?.errors) {
       throw new ValidationError({
@@ -37,7 +39,7 @@ export const fetchLoginUser = async (user) => {
       });
     }
 
-    throw new UnknownError('api/auth/fetchLoginUser');
+    throw new UnknownError('api/auth/fetchLoginUser', message);
   }
 };
 

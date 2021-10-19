@@ -14,8 +14,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/colors.scss';
+
 .star-count {
-  color: var(--el-color-primary);
+  color: $color-primary;
   display: inline-block;
   font-size: 12px;
   line-height: 1;

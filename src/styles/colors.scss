@@ -4,3 +4,21 @@ $color-success: #67c23a;
 $color-warning: #e6a23c;
 $color-danger: #f56c6c;
 $color-info: #909399;
+$color-white: #ffffff;
+$color-black: #000000;
+
+$color-text-base: #1c1c1c;
+$color-background-base: #f5f7fa;
+
+:root {
+  --color-default: #{$color-default};
+  --color-primary: #{$color-primary};
+  --color-success: #{$color-success};
+  --color-warning: #{$color-warning};
+  --color-danger: #{$color-danger};
+  --color-info: #{$color-info};
+  --color-white: #{$color-white};
+  --color-black: #{$color-black};
+  --color-background-base: #{$color-background-base};
+  --color-text-base: #{$color-text-base};
+}

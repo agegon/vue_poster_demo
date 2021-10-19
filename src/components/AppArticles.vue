@@ -2,29 +2,15 @@
   <app-loader v-if="isLoading" class="my-4"></app-loader>
   <el-empty v-else-if="!articles.length" description="No articles are here... yet."></el-empty>
   <template v-else>
-    <article class="mb-2" v-for="article in articles" :key="article.slug">
+    <article class="mb-2" v-for="{ author, ...article } in articles" :key="article.slug">
       <el-card>
         <template #header>
           <el-row justify="space-between">
-            <el-row>
-              <el-avatar
-                class="mr-1"
-                icon="el-icon-user-solid"
-                :src="article.author.image"
-                :size="32"
-              ></el-avatar>
-              <div>
-                <p>
-                  <router-link
-                    class="link link--primary"
-                    :to="{ name: 'userProfile', params: { username: article.author.username } }"
-                  >
-                    {{ article.author.username }}
-                  </router-link>
-                </p>
-                <p class="created">{{ new Date(article.createdAt).toLocaleString() }}</p>
-              </div>
-            </el-row>
+            <app-user
+              :username="author.username"
+              :image="author.image"
+              :date="article.createdAt"
+            ></app-user>
             <div>
               <el-button
                 v-if="isAuth"
@@ -89,7 +75,8 @@
 <script>
 import { computed, onMounted, ref, watch } from 'vue';
 import { useStore } from 'vuex';
-import { ElAvatar, ElButton, ElCard, ElEmpty, ElPagination, ElRow, ElTag } from 'element-plus';
+import { ElButton, ElCard, ElEmpty, ElPagination, ElRow, ElTag } from 'element-plus';
+import AppUser from '@/components/AppUser';
 import AppLoader from '@/components/ui/AppLoader';
 import AppStarCount from '@/components/ui/AppStarCount';
 import { ARTICLES_GETTERS, getArticles } from '@/store/modules/articles';
@@ -152,7 +139,7 @@ export default {
   components: {
     AppLoader,
     AppStarCount,
-    ElAvatar,
+    AppUser,
     ElButton,
     ElCard,
     ElEmpty,
@@ -164,13 +151,8 @@ export default {
 </script>
 
 <style scoped>
-.created {
-  color: var(--el-color-info);
-  font-size: 0.8rem;
-}
-
 .description {
-  color: var(--el-color-info);
+  color: var(--color-info);
   display: -webkit-box;
   height: 38px;
   overflow: hidden;

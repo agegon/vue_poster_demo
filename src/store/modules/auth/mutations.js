@@ -11,6 +11,7 @@ const AUTH_MUTATIONS = {
   GET_CURRENT_USER_FAILURE: 'auth/getCurrentUserFailure',
 
   CLEAR_VALIDATION_ERRORS: 'auth/clearValidationErrors',
+  CLEAR_AUTHORIZATION: 'auth/clearAuthorization',
 };
 
 export const mutations = {
@@ -43,6 +44,11 @@ export const mutations = {
   [AUTH_MUTATIONS.CLEAR_VALIDATION_ERRORS]: (state) => {
     state.validationErrors = null;
   },
+  [AUTH_MUTATIONS.CLEAR_AUTHORIZATION]: (state) => {
+    state.validationErrors = null;
+    state.status = AUTH_STATUSES.NOT_AUTHENTICATED;
+    state.currentUser = null;
+  },
 };
 
 export const authorizationRequest = createMutation(AUTH_MUTATIONS.AUTHORIZATION_REQUEST);
@@ -54,3 +60,4 @@ export const getCurrentUserSuccess = createMutation(AUTH_MUTATIONS.GET_CURRENT_U
 export const getCurrentUserFailure = createMutation(AUTH_MUTATIONS.GET_CURRENT_USER_FAILURE);
 
 export const clearValidationErrors = createMutation(AUTH_MUTATIONS.CLEAR_VALIDATION_ERRORS);
+export const clearAuthorization = createMutation(AUTH_MUTATIONS.CLEAR_AUTHORIZATION);

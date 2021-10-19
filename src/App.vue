@@ -37,7 +37,8 @@ html {
 }
 
 body {
-  background-color: var(--el-background-color-base);
+  background-color: var(--color-background-base);
+  color: var(--color-text-base);
   font-family: sans-serif;
   margin: 0;
   min-height: 100%;
