@@ -44,7 +44,8 @@ export const actions = {
     try {
       commit(saveArticleRequest());
 
-      const data = await fetchCreateArticle(action.payload);
+      const article = action.payload;
+      const data = await fetchCreateArticle({ article });
       commit(saveArticleSuccess());
 
       return data;
@@ -61,8 +62,8 @@ export const actions = {
     try {
       commit(saveArticleRequest());
 
-      const { slug, ...body } = action;
-      const data = await fetchUpdateArticle(slug, body);
+      const { slug, article } = action.payload;
+      const data = await fetchUpdateArticle(slug, { article });
       commit(saveArticleSuccess());
 
       return data;

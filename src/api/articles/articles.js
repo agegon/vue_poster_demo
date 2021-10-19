@@ -62,7 +62,7 @@ export const fetchCreateArticle = async (body) => {
 
 export const fetchUpdateArticle = async (slug, body) => {
   try {
-    const { data } = await axios.put(`/articles/${slug}`, body);
+    const { data } = await axios.patch(`/articles/${slug}`, body);
 
     return data;
   } catch (error) {

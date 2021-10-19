@@ -37,8 +37,16 @@ export const routes = [
     },
   },
   {
+    component: () => import('@/views/ArticleView.vue'),
+    name: 'article',
+    path: '/articles/:id',
+    meta: {
+      title: 'View an article',
+    },
+  },
+  {
     component: () => import('@/views/ArticleCreate.vue'),
-    name: 'createArticle',
+    name: 'articleCreate',
     path: '/articles/create',
     meta: {
       isAuth: true,
@@ -46,12 +54,12 @@ export const routes = [
     },
   },
   {
-    component: () => import('@/views/ArticleView.vue'),
-    name: 'article',
-    path: '/articles/:id',
+    component: () => import('@/views/ArticleEdit.vue'),
+    name: 'articleEdit',
+    path: '/articles/:id/edit',
     meta: {
       isAuth: true,
-      title: 'View an article',
+      title: 'Update an article',
     },
   },
   {

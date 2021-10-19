@@ -13,7 +13,7 @@
                 class="link nav-link"
                 active-class="active"
                 exact
-                :to="{ name: 'createArticle' }"
+                :to="{ name: 'articleCreate' }"
               >
                 <i class="icon"><icon-edit /></i>
                 &nbsp;New Article

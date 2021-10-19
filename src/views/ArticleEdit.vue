@@ -1,8 +1,10 @@
 <template>
-  <app-container>
+  <app-loader v-if="isLoading" class="my-4"></app-loader>
+  <app-error v-else-if="!article" :error="error"></app-error>
+  <app-container v-else>
     <el-row justify="center">
       <el-col :sx="12" :lg="16">
-        <h2 class="mb-2">Create an article</h2>
+        <h2 class="mb-2">Update an article</h2>
         <div v-if="validationErrors" class="mb-2">
           <app-validation-errors :errors="validationErrors"></app-validation-errors>
         </div>
@@ -37,25 +39,25 @@
                 name="body"
                 placeholder="Body"
                 type="textarea"
+                resize="none"
+                :autosize="false"
                 :rows="8"
                 v-model="body"
                 :disabled="isSubmitting"
               ></el-input>
             </div>
-            <div class="form-control mb-2">
-              <label for="tags">Tags:</label>
-              <el-input
-                id="tags"
-                name="tags"
-                placeholder="Tags"
-                type="text"
-                v-model="tags"
-                :disabled="isSubmitting"
-              ></el-input>
-            </div>
-            <el-row justify="end">
+            <el-row class="buttons" justify="end">
+              <router-link
+                :to="{ name: 'article', params: { id: article.slug } }"
+                v-slot="{ navigate }"
+                custom
+              >
+                <el-button native-type="button" @click="navigate" :disabled="isSubmitting">
+                  Cancel
+                </el-button>
+              </router-link>
               <el-button type="primary" native-type="submit" :loading="isSubmitting">
-                Create
+                Save
               </el-button>
             </el-row>
           </form>
@@ -68,47 +70,73 @@
 <script>
 import { mapGetters } from 'vuex';
 import { ElRow, ElCol, ElCard, ElInput, ElButton } from 'element-plus';
+import AppError from '@/components/AppError';
 import AppValidationErrors from '@/components/AppValidationErrors';
 import AppContainer from '@/components/ui/AppContainer';
+import AppLoader from '@/components/ui/AppLoader';
 import {
   CURRENT_ARTICLE_GETTERS,
   clearArticleState,
-  createArticle,
+  updateArticle,
+  getArticle,
 } from '@/store/modules/currentArticle';
+import { AUTH_GETTERS } from '@/store/modules/auth';
 
 export default {
-  name: 'AppArticleCreate',
+  name: 'AppArticleEdit',
   data() {
     return {
       title: '',
       description: '',
       body: '',
-      tags: '',
     };
   },
   computed: mapGetters({
+    article: CURRENT_ARTICLE_GETTERS.DATA,
+    currentUser: AUTH_GETTERS.CURRENT_USERNAME,
+    error: CURRENT_ARTICLE_GETTERS.ERROR,
+    isLoading: CURRENT_ARTICLE_GETTERS.IS_LOADING,
     isSubmitting: CURRENT_ARTICLE_GETTERS.IS_SUBMITTING,
     validationErrors: CURRENT_ARTICLE_GETTERS.VALIDATION_ERRORS,
   }),
   methods: {
+    async fetchArticle() {
+      const slug = this.$route.params.id;
+      const currentAricle = await this.$store.dispatch(getArticle(slug));
+
+      if (currentAricle && currentAricle.author.username !== this.currentUser) {
+        this.$router.push({ name: 'article', params: { id: slug } });
+      }
+    },
     async handleSubmit() {
-      const tagList = this.tags
-        .toLowerCase()
-        .replace(/[^a-z0-9\s]/, '')
-        .split(' ')
-        .filter((tag) => tag);
+      const slug = this.article.slug;
 
       const article = {
         title: this.title.trim(),
         body: this.body.trim(),
         description: this.description.trim(),
-        tagList,
       };
 
-      const created = await this.$store.dispatch(createArticle(article));
+      const updated = await this.$store.dispatch(updateArticle({ slug, article }));
 
-      if (created) {
-        this.$router.push({ name: 'home' });
+      if (updated) {
+        this.$router.push({ name: 'article', params: { id: slug } });
+      }
+    },
+  },
+  mounted() {
+    this.fetchArticle();
+  },
+  watch: {
+    article(data) {
+      if (data) {
+        this.title = data.title;
+        this.body = data.body;
+        this.description = data.description;
+      } else {
+        this.title = '';
+        this.body = '';
+        this.description = '';
       }
     },
   },
@@ -117,6 +145,8 @@ export default {
   },
   components: {
     AppContainer,
+    AppError,
+    AppLoader,
     AppValidationErrors,
     ElButton,
     ElCard,
@@ -127,4 +157,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.buttons button {
+  min-width: 100px;
+}
+</style>
