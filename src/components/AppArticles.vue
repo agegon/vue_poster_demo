@@ -92,10 +92,13 @@ export default {
 
     const type = computed(() => props.type);
     const tag = computed(() => props.tag);
+    const author = computed(() => props.author);
 
     const fetchArticles = () => {
       const params = {
+        author: author.value || undefined,
         isFeed: type.value === ARTICLE_LIST_TYPES.FEED,
+        favorited: type.value === ARTICLE_LIST_TYPES.FAVORITE || undefined,
         tag: tag.value || undefined,
         limit: pageSize,
         offset: (page.value - 1) * pageSize,
@@ -118,7 +121,7 @@ export default {
     const isLoading = computed(() => store.getters[ARTICLES_GETTERS.IS_LOADING]);
     const isAuth = computed(() => store.getters[AUTH_GETTERS.IS_AUTHENTICATED]);
 
-    watch([type, tag], () => {
+    watch([type, tag, author], () => {
       fetchArticles();
     });
 
@@ -133,6 +136,7 @@ export default {
     };
   },
   props: {
+    author: String,
     tag: String,
     type: String,
   },

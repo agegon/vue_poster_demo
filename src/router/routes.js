@@ -63,7 +63,7 @@ export const routes = [
     },
   },
   {
-    component: () => import('@/views/Stub.vue'),
+    component: () => import('@/views/UserProfile.vue'),
     name: 'userProfile',
     path: '/user/:username',
     meta: {
