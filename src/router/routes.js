@@ -28,7 +28,7 @@ export const routes = [
     },
   },
   {
-    component: () => import('@/views/Stub.vue'),
+    component: () => import('@/views/Settings.vue'),
     name: 'settings',
     path: '/settings',
     meta: {

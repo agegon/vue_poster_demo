@@ -54,7 +54,7 @@
 <script>
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { useStore } from 'vuex';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router';
 import { ElButton, ElCard, ElCol, ElDialog, ElRow } from 'element-plus';
 import AppBanner from '@/components/AppBanner';
 import AppError from '@/components/AppError';
@@ -76,9 +76,8 @@ export default {
     const router = useRouter();
     const store = useStore();
 
-    const fetchArticle = () => {
-      const slug = route.params.id;
-      store.dispatch(getArticle(slug));
+    const fetchArticle = (id) => {
+      store.dispatch(getArticle(id));
     };
 
     const handleDeleteArticle = async () => {
@@ -92,7 +91,14 @@ export default {
     };
 
     onMounted(() => {
-      fetchArticle();
+      fetchArticle(route.params.id);
+    });
+
+    onBeforeRouteUpdate((to, from, next) => {
+      if (from.params.id !== to.params.id) {
+        fetchArticle(to.params.id);
+      }
+      next();
     });
 
     onBeforeUnmount(() => {

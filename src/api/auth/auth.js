@@ -32,7 +32,7 @@ export const fetchLoginUser = async (user) => {
     const { data, status } = error?.response || {};
     const message = data?.error || undefined;
 
-    if ([403, 422].includes(status) && data?.errors) {
+    if ([401, 422].includes(status) && data?.errors) {
       throw new ValidationError({
         message: 'Login user validation error',
         errors: data.errors,
@@ -56,5 +56,29 @@ export const fetchGetCurrentUser = async () => {
     }
 
     throw new UnknownError('api/auth/fetchGetCurrentUser');
+  }
+};
+
+export const fetchUpdateCurrentUser = async (body) => {
+  try {
+    const { data } = await axios.patch('/user', body);
+
+    return data;
+  } catch (error) {
+    const { data, status } = error?.response || {};
+    const message = data?.error || undefined;
+
+    if (status === 422 && data?.errors) {
+      throw new ValidationError({
+        message: 'Update user validation error',
+        errors: data.errors,
+      });
+    }
+
+    if (status === 401) {
+      throw new AuthorizationError();
+    }
+
+    throw new UnknownError('api/auth/fetchUpdateCurrentUser', message);
   }
 };

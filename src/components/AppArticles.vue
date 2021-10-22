@@ -18,6 +18,7 @@
                 type="primary"
                 :icon="article.favorited ? 'el-icon-star-on' : 'el-icon-star-off'"
                 :plain="!article.favorited"
+                @click="() => handleFavoriteClick(article.slug, article.favorited)"
               >
                 {{ article.favoritesCount }}
               </el-button>
@@ -63,8 +64,8 @@
         :total="articlesCount"
         :pager-count="5"
         :page-size="pageSize"
-        :current-page="page"
-        @update:current-page="handleChangePage"
+        v-model:current-page="page"
+        @current-change="handleChangePage"
         hide-on-single-page
       >
       </el-pagination>
@@ -79,14 +80,19 @@ import { ElButton, ElCard, ElEmpty, ElPagination, ElRow, ElTag } from 'element-p
 import AppUser from '@/components/AppUser';
 import AppLoader from '@/components/ui/AppLoader';
 import AppStarCount from '@/components/ui/AppStarCount';
-import { ARTICLES_GETTERS, getArticles } from '@/store/modules/articles';
+import {
+  addArticleToFavorite,
+  ARTICLES_GETTERS,
+  getArticles,
+  removeArticleFromFavorite,
+} from '@/store/modules/articles';
 import { ARTICLE_LIST_TYPES } from '@/constants/articles';
 import { AUTH_GETTERS } from '@/store/modules/auth';
 
 export default {
   name: 'AppArticles',
   setup(props) {
-    const pageSize = 10;
+    const pageSize = 5;
     const page = ref(1);
     const store = useStore();
 
@@ -111,9 +117,16 @@ export default {
       fetchArticles();
     });
 
-    const handleChangePage = (nextPage) => {
-      page.value = nextPage;
+    const handleChangePage = () => {
       fetchArticles();
+    };
+
+    const handleFavoriteClick = (slug, favorited) => {
+      if (favorited) {
+        store.dispatch(removeArticleFromFavorite(slug));
+      } else {
+        store.dispatch(addArticleToFavorite(slug));
+      }
     };
 
     const articles = computed(() => store.getters[ARTICLES_GETTERS.ARTICLES_DATA]);
@@ -131,6 +144,7 @@ export default {
       isAuth,
       isLoading,
       handleChangePage,
+      handleFavoriteClick,
       page,
       pageSize,
     };

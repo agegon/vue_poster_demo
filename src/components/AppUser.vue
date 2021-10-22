@@ -1,6 +1,6 @@
 <template>
   <el-row>
-    <el-avatar class="mr-1" icon="el-icon-user-solid" :src="image" :size="32"></el-avatar>
+    <app-avatar class="mr-1" :src="image" :size="32"></app-avatar>
     <div>
       <p>
         <router-link class="link link--info" :to="{ name: 'userProfile', params: { username } }">
@@ -14,7 +14,8 @@
 
 <script>
 import { computed } from 'vue';
-import { ElAvatar, ElRow } from 'element-plus';
+import { ElRow } from 'element-plus';
+import AppAvatar from '@/components/ui/AppAvatar';
 
 export default {
   name: 'AppUser',
@@ -31,7 +32,7 @@ export default {
     username: String,
   },
   components: {
-    ElAvatar,
+    AppAvatar,
     ElRow,
   },
 };
@@ -53,5 +54,12 @@ export default {
 .date {
   font-size: 0.8rem;
   opacity: 0.6;
+}
+
+.avatar {
+  &::v-deep > img {
+    height: 100%;
+    width: 100%;
+  }
 }
 </style>

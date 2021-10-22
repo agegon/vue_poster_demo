@@ -1,5 +1,10 @@
 import { clearAxiosAuthorization, setAxiosAuthorization } from '@/api/axios';
-import { fetchGetCurrentUser, fetchLoginUser, fetchRegisterUser } from '@/api/auth';
+import {
+  fetchGetCurrentUser,
+  fetchLoginUser,
+  fetchRegisterUser,
+  fetchUpdateCurrentUser,
+} from '@/api/auth';
 import { AuthorizationError, ValidationError } from '@/utils/errors';
 import { showError } from '@/utils/messages';
 import { getItemFromStorage, removeItemFromStorage, setItemToStorage } from '@/utils/storage';
@@ -13,6 +18,9 @@ import {
   getCurrentUserRequest,
   getCurrentUserSuccess,
   getCurrentUserFailure,
+  updateCurrentUserRequest,
+  updateCurrentUserSuccess,
+  updateCurrentUserFailure,
 } from './mutations';
 
 const AUTH_TOKEN = 'jwtToken';
@@ -22,6 +30,7 @@ const AUTH_ACTIONS = {
   LOGOUT: 'auth/logout',
   REGISTER: 'auth/register',
   GET_CURRENT_USER: 'auth/getCurrentUser',
+  UPDATE_CURRENT_USER: 'auth/updateCurrentUser',
 };
 
 export const actions = {
@@ -90,6 +99,27 @@ export const actions = {
       commit(getCurrentUserFailure());
     }
   },
+  [AUTH_ACTIONS.UPDATE_CURRENT_USER]: async ({ commit, dispatch }, action) => {
+    try {
+      commit(updateCurrentUserRequest());
+
+      const { user } = await fetchUpdateCurrentUser({ user: action.payload });
+      commit(updateCurrentUserSuccess(user));
+      setItemToStorage(AUTH_TOKEN, user.token);
+      setAxiosAuthorization(user.token);
+
+      return user;
+    } catch (error) {
+      if (error instanceof AuthorizationError) {
+        dispatch(logoutUser());
+      } else if (error instanceof ValidationError) {
+        commit(updateCurrentUserFailure(error.errors));
+      } else {
+        showError(error.message);
+        commit(updateCurrentUserFailure());
+      }
+    }
+  },
   [AUTH_ACTIONS.LOGOUT]: ({ commit }) => {
     commit(clearAuthorization());
     clearAxiosAuthorization();
@@ -101,3 +131,4 @@ export const loginUser = createAction(AUTH_ACTIONS.LOGIN);
 export const logoutUser = createAction(AUTH_ACTIONS.LOGOUT);
 export const registerUser = createAction(AUTH_ACTIONS.REGISTER);
 export const getCurrentUser = createAction(AUTH_ACTIONS.GET_CURRENT_USER);
+export const updateCurrentUser = createAction(AUTH_ACTIONS.UPDATE_CURRENT_USER);

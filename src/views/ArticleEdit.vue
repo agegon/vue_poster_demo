@@ -102,9 +102,9 @@ export default {
   methods: {
     async fetchArticle() {
       const slug = this.$route.params.id;
-      const currentAricle = await this.$store.dispatch(getArticle(slug));
+      const data = await this.$store.dispatch(getArticle(slug));
 
-      if (currentAricle && currentAricle.author.username !== this.currentUser) {
+      if (data && data.article.author.username !== this.currentUser) {
         this.$router.push({ name: 'article', params: { id: slug } });
       }
     },

@@ -40,11 +40,7 @@
                   params: { username: currentUser.username },
                 }"
               >
-                <el-avatar
-                  icon="el-icon-user-solid"
-                  :src="currentUser.image"
-                  :size="24"
-                ></el-avatar>
+                <app-avatar :src="currentUser.image" :size="24"></app-avatar>
                 <span class="username">&nbsp;{{ currentUser.username }}</span>
               </router-link>
             </li>
@@ -79,8 +75,9 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { ElAvatar, ElRow } from 'element-plus';
+import { ElRow } from 'element-plus';
 import { IconEdit, IconSettings } from '@/components/icons';
+import AppAvatar from '@/components/ui/AppAvatar';
 import AppContainer from '@/components/ui/AppContainer';
 import { AUTH_GETTERS } from '@/store/modules/auth';
 
@@ -92,7 +89,7 @@ export default {
   }),
   components: {
     AppContainer,
-    ElAvatar,
+    AppAvatar,
     ElRow,
     IconEdit,
     IconSettings,

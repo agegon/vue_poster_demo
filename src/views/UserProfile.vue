@@ -4,12 +4,7 @@
   <template v-else>
     <app-banner type="warning">
       <div class="wrapper">
-        <el-avatar
-          class="avatar mb-2"
-          icon="el-icon-user-solid"
-          :src="profile.image"
-          :size="100"
-        ></el-avatar>
+        <app-avatar class="mb-2" :src="profile.image" :size="100"></app-avatar>
         <h2>{{ profile.username }}</h2>
       </div>
       <el-row v-if="isAuth" justify="end" align="bottom">
@@ -55,8 +50,9 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { ElAvatar, ElButton, ElCol, ElRow, ElTabs, ElTabPane } from 'element-plus';
+import { ElButton, ElCol, ElRow, ElTabs, ElTabPane } from 'element-plus';
 import AppLoader from '@/components/ui/AppLoader';
+import AppAvatar from '@/components/ui/AppAvatar';
 import AppError from '@/components/AppError';
 import AppBanner from '@/components/AppBanner';
 import AppArticles from '@/components/AppArticles';
@@ -92,8 +88,7 @@ export default {
     },
   },
   methods: {
-    async fetchProfile() {
-      const username = this.$route.params.username;
+    async fetchProfile(username) {
       const data = await this.$store.dispatch(getProfile(username));
 
       document.title = data
@@ -113,19 +108,25 @@ export default {
       }
     },
   },
-  mounted() {
-    this.fetchProfile();
+  created() {
+    this.fetchProfile(this.$route.params.username);
+  },
+  beforeRouteUpdate(to, from, next) {
+    if (to.params.username !== from.params.username) {
+      this.fetchProfile(to.params.username);
+    }
+    next();
   },
   beforeUnmount() {
     this.$store.commit(clearProfileState());
   },
   components: {
     AppArticles,
+    AppAvatar,
     AppBanner,
     AppContainer,
     AppError,
     AppLoader,
-    ElAvatar,
     ElButton,
     ElCol,
     ElRow,
@@ -140,11 +141,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.avatar {
-  display: block;
-  font-size: 4rem;
 }
 
 h2 {

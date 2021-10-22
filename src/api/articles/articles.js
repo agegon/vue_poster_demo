@@ -90,3 +90,37 @@ export const fetchDeleteArticle = async (slug) => {
     throw new UnknownError('api/articles/fetchDeleteArticle', message);
   }
 };
+
+export const fetchAddArticleToFavorite = async (slug) => {
+  try {
+    const response = await axios.post(`/articles/${slug}/favorite`);
+
+    return response.data;
+  } catch (error) {
+    const code = error?.response?.code;
+    const message = error?.response?.data?.error || undefined;
+
+    if (code === 404) {
+      throw new NotFoundError('Article was not found');
+    }
+
+    throw new UnknownError('api/articles/fetchAddArticleToFavorite', message);
+  }
+};
+
+export const fetchRemoveArticleFromFavorite = async (slug) => {
+  try {
+    const response = await axios.delete(`/articles/${slug}/favorite`);
+
+    return response.data;
+  } catch (error) {
+    const code = error?.response?.code;
+    const message = error?.response?.data?.error || undefined;
+
+    if (code === 404) {
+      throw new NotFoundError('Article was not found');
+    }
+
+    throw new UnknownError('api/articles/fetchRemoveArticleFromFavorite', message);
+  }
+};

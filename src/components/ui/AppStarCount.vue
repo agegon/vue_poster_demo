@@ -1,6 +1,8 @@
 <template>
   <span class="star-count">
-    <i class="el-icon-star-off"></i>
+    <i class="icon">
+      <icon-star></icon-star>
+    </i>
     <span>
       <slot></slot>
     </span>
@@ -8,16 +10,17 @@
 </template>
 
 <script>
+import { IconStar } from '@/components/icons';
+
 export default {
   name: 'AppStarCount',
+  components: { IconStar },
 };
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/colors.scss';
-
 .star-count {
-  color: $color-primary;
+  color: var(--color-primary);
   display: inline-block;
   font-size: 12px;
   line-height: 1;
