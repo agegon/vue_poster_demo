@@ -35,7 +35,7 @@ export default {
 .avatar {
   display: block;
 
-  &::v-deep > img {
+  &:deep(img) {
     height: 100%;
     width: 100%;
   }

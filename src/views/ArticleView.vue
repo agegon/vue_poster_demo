@@ -1,11 +1,11 @@
 <template>
   <app-loader v-if="isLoading" class="my-4"></app-loader>
+  <app-error v-else-if="!article" :error="error"></app-error>
   <template v-else>
     <app-banner type="success">
       <h1 class="mb-2">{{ title }}</h1>
       <el-row justify="space-between" align="bottom">
         <app-user
-          v-if="article"
           :username="article.author.username"
           :image="article.author.image"
           :date="article.createdAt"
@@ -30,7 +30,7 @@
       </el-row>
     </app-banner>
     <app-container>
-      <main v-if="article">
+      <main>
         <el-row justify="center">
           <el-col :xs="24" :lg="16">
             <el-card class="pa-2">
@@ -39,7 +39,7 @@
           </el-col>
         </el-row>
       </main>
-      <app-error v-else :error="error"></app-error>
+      <the-comments></the-comments>
     </app-container>
     <el-dialog v-model="isDeleteConfirm" width="320px">
       <span class="confirm-message">You will loose the article forever. Are you sure?</span>
@@ -59,6 +59,7 @@ import { ElButton, ElCard, ElCol, ElDialog, ElRow } from 'element-plus';
 import AppBanner from '@/components/AppBanner';
 import AppError from '@/components/AppError';
 import AppUser from '@/components/AppUser';
+import TheComments from '@/components/TheComments';
 import AppContainer from '@/components/ui/AppContainer';
 import AppLoader from '@/components/ui/AppLoader';
 import {
@@ -153,6 +154,7 @@ export default {
     ElCol,
     ElDialog,
     ElRow,
+    TheComments,
   },
 };
 </script>

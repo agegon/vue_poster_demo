@@ -1,7 +1,7 @@
 <template>
   <el-row>
     <app-avatar class="mr-1" :src="image" :size="32"></app-avatar>
-    <div>
+    <div class="content">
       <p>
         <router-link class="link link--info" :to="{ name: 'userProfile', params: { username } }">
           {{ username }}
@@ -51,15 +51,12 @@ export default {
   }
 }
 
+.content {
+  align-self: center;
+}
+
 .date {
   font-size: 0.8rem;
   opacity: 0.6;
-}
-
-.avatar {
-  &::v-deep > img {
-    height: 100%;
-    width: 100%;
-  }
 }
 </style>
